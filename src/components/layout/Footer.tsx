@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Building2, Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, Phone, MapPin } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -31,22 +31,22 @@ export function Footer() {
             <h4 className="text-lg font-light mb-4">קישורים מהירים</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-white transition-colors font-ultralight" style={{'&:hover': {color: '#D94188'}}}>
+                <Link href="/" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
                   עמוד הבית
                 </Link>
               </li>
               <li>
-                <Link href="/category/residential" className="text-gray-300 hover:text-white transition-colors font-ultralight">
+                <Link href="/category/residential" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
                   דירות מגורים
                 </Link>
               </li>
               <li>
-                <Link href="/category/commercial" className="text-gray-300 hover:text-white transition-colors font-ultralight">
+                <Link href="/category/commercial" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
                   משרדים
                 </Link>
               </li>
               <li>
-                <Link href="/category/investments" className="text-gray-300 hover:text-white transition-colors font-ultralight">
+                <Link href="/category/investments" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
                   השקעות
                 </Link>
               </li>
