@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isOtpLoading, setIsOtpLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -28,7 +29,7 @@ export default function LoginPage() {
       })
 
       if (error) {
-        toast.error('שגיאה בהתחברות: ' + error.message)
+        toast.error('שגיאה בהתחברות: ' + (error?.message || 'נסה שוב'))
       } else {
         toast.success('התחברת בהצלחה!')
         router.push('/admin')
@@ -37,6 +38,26 @@ export default function LoginPage() {
       toast.error('שגיאה לא צפויה')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleMagicLink = async () => {
+    if (!email) {
+      toast.error('נא להכניס אימייל')
+      return
+    }
+    setIsOtpLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email })
+      if (error) {
+        toast.error('שגיאה בשליחת הקישור: ' + (error?.message || 'נסה שוב'))
+      } else {
+        toast.success('שלחנו קישור כניסה למייל. בדוק את תיבת הדואר.')
+      }
+    } catch (e) {
+      toast.error('שגיאה לא צפויה')
+    } finally {
+      setIsOtpLoading(false)
     }
   }
 
@@ -64,6 +85,7 @@ export default function LoginPage() {
                 required
                 disabled={isLoading}
                 dir="ltr"
+                autoComplete="username"
               />
             </div>
             <div className="space-y-2">
@@ -77,6 +99,7 @@ export default function LoginPage() {
                 required
                 disabled={isLoading}
                 dir="ltr"
+                autoComplete="current-password"
               />
             </div>
             <Button 
@@ -92,6 +115,15 @@ export default function LoginPage() {
               ) : (
                 'התחבר'
               )}
+            </Button>
+            <div className="text-center text-sm text-gray-500">או</div>
+            <Button 
+              type="button"
+              onClick={handleMagicLink}
+              className="w-full font-button bg-white/10 text-brand-dark hover:bg-white/20"
+              disabled={isOtpLoading}
+            >
+              {isOtpLoading ? 'שולח קישור למייל…' : 'התחברות בקישור למייל'}
             </Button>
           </form>
         </CardContent>
