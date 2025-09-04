@@ -1,10 +1,14 @@
 import Link from 'next/link'
-import { Card, CardContent } from '@/components/ui/card'
 import { Calendar, User } from 'lucide-react'
-import { Tables } from '@/lib/database.types'
 
-type Article = Tables<'articles'> & {
-  profiles: { role: string } | null
+type Article = {
+  id: string
+  title: string
+  seo_description: string
+  category: string
+  cover_image: string
+  created_at: string
+  status: string
 }
 
 interface ArticleGridProps {

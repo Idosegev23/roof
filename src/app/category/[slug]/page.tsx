@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 import { ArticleGrid } from '@/components/category/ArticleGrid'
 import { CategoryFilters } from '@/components/category/CategoryFilters'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { Building, Briefcase, TrendingUp } from 'lucide-react'
 import { Metadata } from 'next'
+import { getArticlesByCategory } from '@/lib/mockArticles'
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>
@@ -62,25 +62,17 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     notFound()
   }
 
-  const supabase = await createClient()
+  // Get mock articles for this category
+  let articles = getArticlesByCategory(slug)
   
-  // Build query with filters
-  let query = supabase
-    .from('articles')
-    .select(`
-      *,
-      profiles (role)
-    `)
-    .eq('status', 'published')
-    .eq('category', slug)
-    .order('created_at', { ascending: false })
-
   // Apply search filter if provided
   if (searchParamsResolved.search && typeof searchParamsResolved.search === 'string') {
-    query = query.or(`title.ilike.%${searchParamsResolved.search}%,seo_description.ilike.%${searchParamsResolved.search}%`)
+    const searchTerm = searchParamsResolved.search.toLowerCase()
+    articles = articles.filter(article => 
+      article.title.toLowerCase().includes(searchTerm) ||
+      article.seo_description.toLowerCase().includes(searchTerm)
+    )
   }
-
-  const { data: articles } = await query
 
   const IconComponent = category.icon
 
