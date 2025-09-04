@@ -80,11 +80,10 @@ export function CategoryFilters({ category, currentSearch }: CategoryFiltersProp
         {currentSearch && (
           <button 
             onClick={clearFilters}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-framework-primary hover:text-white transition-all duration-200 hover:scale-105"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-white hover:text-white transition-all duration-200 hover:scale-105"
             style={{
-              background: `linear-gradient(135deg, rgba(217, 65, 136, 0.2), rgba(217, 65, 136, 0.1))`,
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(217, 65, 136, 0.3)',
+              backgroundColor: '#D94188',
+              boxShadow: '0 4px 16px rgba(217, 65, 136, 0.3)',
             }}
           >
             <span className="text-sm font-light">נקה סינונים</span>

@@ -58,11 +58,10 @@ export function ArticleGrid({ articles, category }: ArticleGridProps) {
             <div className="p-6">
               <div className="mb-4">
                 <span 
-                  className="inline-block px-3 py-1 rounded-full text-xs font-light"
+                  className="inline-block px-3 py-1 rounded-full text-xs font-light text-white"
                   style={{
-                    background: `rgba(217, 65, 136, 0.2)`,
-                    color: '#D94188',
-                    border: '1px solid rgba(217, 65, 136, 0.3)',
+                    backgroundColor: '#D94188',
+                    boxShadow: '0 2px 8px rgba(217, 65, 136, 0.3)',
                   }}
                 >
                   {article.category || 'כללי'}

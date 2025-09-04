@@ -17,21 +17,21 @@ const categoryData = {
     title: 'נדל״ן למגורים',
     description: 'כל מה שצריך לדעת על קניה, מכירה והשכרת דירות מגורים',
     icon: Building,
-    gradient: 'from-framework-primary/20 to-framework-accent/10',
+    backgroundColor: '#D94188',
     accentColor: '#D94188'
   },
   offices: {
     title: 'נדל״ן משרדי',
     description: 'השקעות במשרדים, חללי מסחר ונכסים עסקיים',
     icon: Briefcase,
-    gradient: 'from-blue-500/20 to-framework-primary/10',
+    backgroundColor: '#3B82F6',
     accentColor: '#3B82F6'
   },
   investments: {
     title: 'נדל״ן להשקעה',
     description: 'אסטרטגיות השקעה, ניתוח שוק וטיפים למשקיעים',
     icon: TrendingUp,
-    gradient: 'from-purple-500/20 to-framework-primary/10',
+    backgroundColor: '#8B5CF6',
     accentColor: '#8B5CF6'
   }
 }
@@ -91,14 +91,19 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       <main>
         {/* Category Hero - Glassmorphism Style */}
         <section className="relative overflow-hidden">
-          {/* Background gradient */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient}`}></div>
+          {/* Background color */}
+          <div 
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundColor: category.backgroundColor,
+            }}
+          ></div>
           
           {/* Glassmorphism overlay */}
           <div 
             className="absolute inset-0"
             style={{
-              background: 'rgba(0, 0, 0, 0.6)',
+              background: 'rgba(0, 0, 0, 0.7)',
               backdropFilter: 'blur(10px)',
             }}
           ></div>
@@ -109,13 +114,11 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
               <div 
                 className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-8 transition-transform hover:scale-110"
                 style={{
-                  background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
-                  backdropFilter: 'blur(10px)',
-                  border: `1px solid ${category.accentColor}30`,
-                  boxShadow: `0 8px 32px ${category.accentColor}20`,
+                  backgroundColor: category.backgroundColor,
+                  boxShadow: `0 8px 32px ${category.accentColor}40`,
                 }}
               >
-                <IconComponent className="h-10 w-10" style={{ color: category.accentColor }} />
+                <IconComponent className="h-10 w-10 text-white" />
               </div>
               
               {/* Title */}
