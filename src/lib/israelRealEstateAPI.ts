@@ -287,12 +287,14 @@ export async function saveKPIsToSupabase(kpis: RealEstateKPIs): Promise<void> {
 
 // Fetch with timeout + single retry for stability
 async function fetchWithTimeout(url: string, init?: RequestInit & { timeoutMs?: number }): Promise<Response> {
-  const timeoutMs = (init as any)?.timeoutMs ?? 7000
+  const timeoutMs = (init && 'timeoutMs' in init && typeof (init as { timeoutMs?: number }).timeoutMs === 'number')
+    ? (init as { timeoutMs?: number }).timeoutMs!
+    : 7000
   const controller = new AbortController()
   const id = setTimeout(() => controller.abort(), timeoutMs)
   try {
     return await fetch(url, { ...(init || {}), signal: controller.signal })
-  } catch (e) {
+  } catch {
     // retry once after brief backoff
     await new Promise((r) => setTimeout(r, 250))
     return await fetch(url, { ...(init || {}), signal: controller.signal })

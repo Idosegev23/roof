@@ -11,7 +11,7 @@ export async function GET() {
         'Cache-Control': 's-maxage=1800, stale-while-revalidate=3600',
       },
     })
-  } catch (e) {
+  } catch {
     // fallback data already happens inside lib; double-guard
     return NextResponse.json({
       avg_price_sqm: { value: 28750, change_pct: 2.3 },

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import ArticleEditor from '@/components/admin/ArticleEditor'
+import { Tables } from '@/lib/database.types'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -24,7 +25,10 @@ export default async function EditArticlePage({ params }: Props) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-light">עריכת כתבה</h1>
-      <ArticleEditor article={article as any} content={content as any} />
+      <ArticleEditor 
+        article={article as Tables<'articles'> | undefined}
+        content={content as (Pick<Tables<'article_content'>, 'id' | 'blocks'>) | null}
+      />
     </div>
   )
 }

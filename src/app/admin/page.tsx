@@ -18,11 +18,11 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-6 border border-white/10">
-          <div className="text-white/60 text-sm mb-2">סה"כ לידים</div>
+          <div className="text-white/60 text-sm mb-2">סה&quot;כ לידים</div>
           <div className="text-3xl font-light">{leadsCount?.length ?? 0}</div>
         </div>
         <div className="p-6 border border-white/10">
-          <div className="text-white/60 text-sm mb-2">סה"כ כתבות</div>
+          <div className="text-white/60 text-sm mb-2">סה&quot;כ כתבות</div>
           <div className="text-3xl font-light">{articlesCount?.length ?? 0}</div>
         </div>
         <div className="p-6 border border-white/10">

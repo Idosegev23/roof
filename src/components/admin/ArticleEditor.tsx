@@ -2,21 +2,14 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { Tables } from '@/lib/database.types'
+
+type ArticleRow = Tables<'articles'>
+type ArticleContentRow = Pick<Tables<'article_content'>, 'id' | 'blocks'>
 
 type ArticleEditorProps = {
-  article?: {
-    id: string
-    title: string
-    seo_title: string | null
-    seo_description: string | null
-    category: string | null
-    cover_image: string | null
-    status: string
-  }
-  content?: {
-    id: string
-    blocks: any
-  } | null
+  article?: ArticleRow
+  content?: ArticleContentRow | null
 }
 
 const categories = [
@@ -49,7 +42,7 @@ export default function ArticleEditor({ article, content }: ArticleEditorProps) 
       setError('יש להזין כותרת')
       return
     }
-    let parsedBlocks: any = []
+    let parsedBlocks: unknown = []
     try {
       parsedBlocks = blocks ? JSON.parse(blocks) : []
     } catch (e) {
@@ -97,7 +90,7 @@ export default function ArticleEditor({ article, content }: ArticleEditorProps) 
           .from('article_content')
           .upsert({
             article_id: articleId,
-            blocks: parsedBlocks,
+            blocks: parsedBlocks as ArticleContentRow['blocks'],
           })
         if (contErr) {
           setError(contErr.message)

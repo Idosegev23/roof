@@ -15,7 +15,7 @@ export default async function AdminLeads() {
         <div className="hidden md:grid grid-cols-6 gap-4 p-3 border-b border-white/10 text-white/60 text-sm">
           <div>שם</div>
           <div>טלפון</div>
-          <div>דוא"ל</div>
+          <div>דוא&quot;ל</div>
           <div>כתבה</div>
           <div>תאריך</div>
           <div></div>
