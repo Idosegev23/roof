@@ -65,8 +65,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     notFound()
   }
 
-  // Get mock articles for this category
-  let articles = getArticlesByCategory(slug)
+  // Get mock articles for this category (sorted newest first)
+  let articles = getArticlesByCategory(slug).sort((a, b) => 
+    new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  )
   
   // Apply search filter if provided
   if (searchParamsResolved.search && typeof searchParamsResolved.search === 'string') {
