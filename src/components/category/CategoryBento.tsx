@@ -16,13 +16,10 @@ interface CategoryBentoProps {
 }
 
 export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
-  // מקבלים רק את הכתבות הראשונות (עד 6 לבנטו)
-  const bentoArticles = articles.slice(0, 6)
-
-  if (bentoArticles.length === 0) {
+  if (articles.length === 0) {
     return (
       <div 
-        className="text-center py-20"
+        className="text-center py-20 mx-4"
         style={{
           background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
           backdropFilter: 'blur(10px)',
@@ -46,56 +43,35 @@ export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
             כתבות {categoryTitle}
           </h2>
           <p className="text-white/60 font-light">
-            {bentoArticles.length} כתבות זמינות בקטגוריה זו
+            {articles.length} כתבות זמינות בקטגוריה זו
           </p>
         </div>
 
-        {/* Bento Grid - קווים ישירים */}
-        <div className="grid grid-cols-12 gap-4 md:gap-6 auto-rows-[200px]">
+        {/* Dynamic Bento Grid - ללא חללים ריקים */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 auto-rows-[200px]">
           
-          {/* כתבה ראשית - גדולה */}
-          {bentoArticles[0] && (
-            <div className="col-span-12 md:col-span-8 row-span-2">
-              <div className="group relative h-full overflow-hidden transition-all duration-500 hover:scale-[1.02]">
-                {/* תמונת רקע */}
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                  style={{
-                    backgroundImage: `url(${bentoArticles[0].cover_image})`,
-                  }}
-                ></div>
-                
-                {/* אוברליי כהה */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                
-                {/* תוכן */}
-                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
-                  {/* כותרת */}
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-white mb-4 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
-                    <Link href={`/article/${bentoArticles[0].id}`}>
-                      {bentoArticles[0].title}
-                    </Link>
-                  </h3>
-                  
-                  {/* תקציר */}
-                  <p className="text-white/80 mb-4 font-ultralight leading-relaxed">
-                    {bentoArticles[0].seo_description}
-                  </p>
-                  
-                  {/* תאריך */}
-                  <div className="text-white/60 text-sm font-ultralight">
-                    {new Date(bentoArticles[0].created_at).toLocaleDateString('he-IL')}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {articles.map((article, index) => {
+            // לוגיקה דינמית לגודל הפריט
+            let colSpan = 'col-span-1'
+            let rowSpan = 'row-span-1'
+            
+            // הכתבה הראשונה תמיד גדולה
+            if (index === 0) {
+              colSpan = 'col-span-2 md:col-span-3 lg:col-span-3'
+              rowSpan = 'row-span-2'
+            }
+            // כל 4 כתבות, אחת תהיה רחבה יותר  
+            else if ((index - 1) % 4 === 0 && articles.length > index + 1) {
+              colSpan = 'col-span-2 md:col-span-2 lg:col-span-2'
+            }
+            // כל 6 כתבות, אחת תהיה גבוהה יותר
+            else if ((index - 1) % 6 === 0) {
+              rowSpan = 'row-span-2'
+            }
 
-          {/* כתבות צדדיות */}
-          {bentoArticles.slice(1, 3).length > 0 && (
-            <div className="col-span-12 md:col-span-4 grid grid-cols-1 gap-4 md:gap-6">
-              {bentoArticles.slice(1, 3).map((article) => (
-                <div key={article.id} className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+            return (
+              <div key={article.id} className={`${colSpan} ${rowSpan}`}>
+                <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
                   {/* תמונת רקע */}
                   <div 
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -109,49 +85,39 @@ export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
                   
                   {/* תוכן */}
                   <div className="relative h-full flex flex-col justify-end p-4">
-                    <h4 className="text-lg font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
+                    {/* קטגוריה */}
+                    <div className="mb-2">
+                      <span className="text-framework-accent-cta text-xs font-medium uppercase tracking-wider">
+                        {categoryTitle}
+                      </span>
+                    </div>
+                    
+                    {/* כותרת - גודל דינמי לפי גודל הפריט */}
+                    <h3 className={`font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200 ${
+                      index === 0 ? 'text-xl md:text-2xl lg:text-3xl' : 
+                      colSpan.includes('2') ? 'text-lg md:text-xl' : 'text-sm md:text-base'
+                    }`}>
                       <Link href={`/article/${article.id}`}>
                         {article.title}
                       </Link>
-                    </h4>
+                    </h3>
+
+                    {/* תקציר רק לכתבה הראשונה */}
+                    {index === 0 && (
+                      <p className="text-white/80 mb-3 font-ultralight leading-relaxed text-sm">
+                        {article.seo_description}
+                      </p>
+                    )}
+                    
+                    {/* תאריך */}
                     <div className="text-white/60 text-xs font-ultralight">
                       {new Date(article.created_at).toLocaleDateString('he-IL')}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* שורה תחתונה - כתבות נוספות */}
-          {bentoArticles.slice(3, 6).map((article) => (
-            <div key={article.id} className="col-span-6 md:col-span-4">
-              <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
-                {/* תמונת רקע */}
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{
-                    backgroundImage: `url(${article.cover_image})`,
-                  }}
-                ></div>
-                
-                {/* אוברליי */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                
-                {/* תוכן */}
-                <div className="relative h-full flex flex-col justify-end p-4">
-                  <h4 className="text-sm md:text-base font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
-                    <Link href={`/article/${article.id}`}>
-                      {article.title}
-                    </Link>
-                  </h4>
-                  <div className="text-white/60 text-xs font-ultralight">
-                    {new Date(article.created_at).toLocaleDateString('he-IL')}
-                  </div>
-                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
 
         </div>
       </div>
