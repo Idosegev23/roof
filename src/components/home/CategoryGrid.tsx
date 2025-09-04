@@ -1,42 +1,24 @@
 import Link from 'next/link'
 
-// קטגוריות נדל"ן
+// מערכת קטגוריות ראשונית - נדל"ן למגורים, נדל"ן משרדי, נדל"ן להשקעה
 const categories = [
   {
     id: 'residential',
-    title: 'דירות מגורים',
+    title: 'נדל״ן למגורים',
     description: 'כתבות, ניתוחים וחדשות על שוק הדיור והמגורים',
     articleCount: 156
   },
   {
-    id: 'commercial',
-    title: 'מסחר ומשרדים', 
+    id: 'offices',
+    title: 'נדל״ן משרדי',
     description: 'כל מה שקשור לנכסים מסחריים ומשרדים להשכרה',
     articleCount: 89
   },
   {
     id: 'investments',
-    title: 'השקעות',
+    title: 'נדל״ן להשקעה',
     description: 'אסטרטגיות השקעה, הזדמנויות ועצות למשקיעים',
     articleCount: 134
-  },
-  {
-    id: 'market-analysis',
-    title: 'ניתוח שוק',
-    description: 'דוחות, סטטיסטיקות ותחזיות שוק מקצועיות',
-    articleCount: 78
-  },
-  {
-    id: 'urban-renewal',
-    title: 'התחדשות עירונית',
-    description: 'פרויקטי TAMA, פינוי בינוי והתחדשות עירונית',
-    articleCount: 45
-  },
-  {
-    id: 'regions',
-    title: 'אזורים ועיר',
-    description: 'כתבות על אזורים שונים בארץ ומגמות מקומיות',
-    articleCount: 92
   }
 ]
 

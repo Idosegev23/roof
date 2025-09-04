@@ -37,17 +37,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/category/residential" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
-                  דירות מגורים
+                  נדל״ן למגורים
                 </Link>
               </li>
               <li>
-                <Link href="/category/commercial" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
-                  משרדים
+                <Link href="/category/offices" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
+                  נדל״ן משרדי
                 </Link>
               </li>
               <li>
                 <Link href="/category/investments" className="text-gray-300 hover:text-framework-primary transition-colors font-ultralight">
-                  השקעות
+                  נדל״ן להשקעה
                 </Link>
               </li>
             </ul>

@@ -14,19 +14,19 @@ interface CategoryPageProps {
 
 const categoryData = {
   residential: {
-    title: 'דירות מגורים',
+    title: 'נדל״ן למגורים',
     description: 'כל מה שצריך לדעת על קניה, מכירה והשכרת דירות מגורים',
     icon: Building,
     color: 'bg-blue-500'
   },
   offices: {
-    title: 'משרדים ומסחר',
+    title: 'נדל״ן משרדי',
     description: 'השקעות במשרדים, חללי מסחר ונכסים עסקיים',
     icon: Briefcase,
     color: 'bg-green-500'
   },
   investments: {
-    title: 'השקעות נדל״ן',
+    title: 'נדל״ן להשקעה',
     description: 'אסטרטגיות השקעה, ניתוח שוק וטיפים למשקיעים',
     icon: TrendingUp,
     color: 'bg-purple-500'

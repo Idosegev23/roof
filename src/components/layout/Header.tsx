@@ -38,11 +38,9 @@ export function Header() {
   // Navigation in a completely different style
   const navItems = [
     { href: '/', label: 'בית', symbol: '●', active: true },
-    { href: '/category/residential', label: 'מגורים', symbol: '▲' },
-    { href: '/category/commercial', label: 'מסחר', symbol: '■' },
-    { href: '/category/investments', label: 'השקעות', symbol: '◆' },
-    { href: '/market-analysis', label: 'ניתוח שוק', symbol: '▼' },
-    { href: '/about', label: 'אודות', symbol: '★' },
+    { href: '/category/residential', label: 'נדל״ן למגורים', symbol: '▲' },
+    { href: '/category/offices', label: 'נדל״ן משרדי', symbol: '■' },
+    { href: '/category/investments', label: 'נדל״ן להשקעה', symbol: '◆' },
   ]
 
   return (
