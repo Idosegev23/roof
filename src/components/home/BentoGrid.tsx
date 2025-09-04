@@ -21,7 +21,7 @@ export function BentoGrid() {
   }
 
   return (
-    <section className="pt-xxxl pb-xxl bg-black">
+    <section className="pt-xxxl pb-16 md:pb-20 lg:pb-24 bg-black">
       <div className="container max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
         
         {/* Section Title */}
@@ -72,7 +72,7 @@ export function BentoGrid() {
             })}
           </div>
         ) : (
-          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))] gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))] gap-4 md:gap-6">
             {top10.map((article, index) => (
               <div key={article.id} className="relative h-[220px] md:h-[260px] overflow-hidden group">
                 <div 

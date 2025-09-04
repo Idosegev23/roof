@@ -35,7 +35,7 @@ export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
   }
 
   return (
-    <section className="py-12">
+    <section className="py-12 pb-16 md:pb-20 lg:pb-24">
       <div className="container mx-auto px-4">
         {/* כותרת הקטגוריה */}
         <div className="mb-8 text-center">
@@ -49,7 +49,7 @@ export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
 
         {/* Symmetric Bento Grid - סימטרי מבחוץ, אסימטרי מבפנים */}
         <div className="aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
-          <div className="grid grid-cols-6 grid-rows-6 md:grid-cols-8 md:grid-rows-6 lg:grid-cols-12 lg:grid-rows-6 gap-2 md:gap-4 h-full">
+          <div className="grid grid-cols-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 grid-rows-6 gap-2 md:gap-4 h-full">
             
             {articles.slice(0, 12).map((article, index) => {
               // לוגיקה דינמית לגודל הפריט - חישוב מדויק לסגירת הגריד
