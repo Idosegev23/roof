@@ -17,19 +17,22 @@ const categoryData = {
     title: 'נדל״ן למגורים',
     description: 'כל מה שצריך לדעת על קניה, מכירה והשכרת דירות מגורים',
     icon: Building,
-    color: 'bg-blue-500'
+    gradient: 'from-framework-primary/20 to-framework-accent/10',
+    accentColor: '#D94188'
   },
   offices: {
     title: 'נדל״ן משרדי',
     description: 'השקעות במשרדים, חללי מסחר ונכסים עסקיים',
     icon: Briefcase,
-    color: 'bg-green-500'
+    gradient: 'from-blue-500/20 to-framework-primary/10',
+    accentColor: '#3B82F6'
   },
   investments: {
     title: 'נדל״ן להשקעה',
     description: 'אסטרטגיות השקעה, ניתוח שוק וטיפים למשקיעים',
     icon: TrendingUp,
-    color: 'bg-purple-500'
+    gradient: 'from-purple-500/20 to-framework-primary/10',
+    accentColor: '#8B5CF6'
   }
 }
 
@@ -82,45 +85,85 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const IconComponent = category.icon
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <Header />
       
       <main>
-        {/* Category Header */}
-        <section className="bg-white border-b border-gray-200">
-          <div className="container mx-auto px-4 py-12">
+        {/* Category Hero - Glassmorphism Style */}
+        <section className="relative overflow-hidden">
+          {/* Background gradient */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient}`}></div>
+          
+          {/* Glassmorphism overlay */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'rgba(0, 0, 0, 0.6)',
+              backdropFilter: 'blur(10px)',
+            }}
+          ></div>
+          
+          <div className="relative container mx-auto px-4 py-20 md:py-32">
             <div className="max-w-4xl mx-auto text-center">
-              <div className={`inline-flex items-center justify-center w-16 h-16 ${category.color} rounded-full mb-6`}>
-                <IconComponent className="h-8 w-8 text-white" />
+              {/* Icon with glassmorphism */}
+              <div 
+                className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-8 transition-transform hover:scale-110"
+                style={{
+                  background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
+                  backdropFilter: 'blur(10px)',
+                  border: `1px solid ${category.accentColor}30`,
+                  boxShadow: `0 8px 32px ${category.accentColor}20`,
+                }}
+              >
+                <IconComponent className="h-10 w-10" style={{ color: category.accentColor }} />
               </div>
               
-              <h1 className="text-3xl md:text-4xl font-title text-brand-dark mb-4">
+              {/* Title */}
+              <h1 className="text-4xl md:text-6xl font-light text-white mb-6 tracking-tight">
                 {category.title}
               </h1>
               
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              {/* Description */}
+              <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto font-light leading-relaxed">
                 {category.description}
               </p>
 
-              <div className="text-sm text-gray-500">
-                {articles?.length || 0} מאמרים בקטגוריה זו
+              {/* Articles count - Glassmorphism badge */}
+              <div 
+                className="inline-block px-6 py-3 rounded-full text-white/90 font-light"
+                style={{
+                  background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                }}
+              >
+                {articles?.length || 0} מאמרים זמינים
               </div>
             </div>
           </div>
         </section>
 
-        {/* Filters */}
-        <section className="bg-white border-b border-gray-200">
-          <div className="container mx-auto px-4 py-6">
-            <CategoryFilters 
-              category={slug} 
-              currentSearch={searchParamsResolved.search as string}
-            />
+        {/* Filters Section - Glassmorphism */}
+        <section className="relative py-8">
+          <div className="container mx-auto px-4">
+            <div 
+              className="max-w-4xl mx-auto p-6 rounded-2xl"
+              style={{
+                background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+            >
+              <CategoryFilters 
+                category={slug} 
+                currentSearch={searchParamsResolved.search as string}
+              />
+            </div>
           </div>
         </section>
 
-        {/* Articles Grid */}
-        <section className="py-8">
+        {/* Articles Grid Section */}
+        <section className="py-12">
           <div className="container mx-auto px-4">
             <ArticleGrid 
               articles={articles || []} 

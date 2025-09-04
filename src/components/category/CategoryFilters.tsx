@@ -38,30 +38,57 @@ export function CategoryFilters({ category, currentSearch }: CategoryFiltersProp
     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
       <div className="flex-1 max-w-md">
         <form onSubmit={handleSearch} className="relative">
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/60" />
           <Input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="חפש מאמרים..."
-            className="pr-10"
+            className="pr-10 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-framework-primary focus:ring-framework-primary"
+            style={{
+              backdropFilter: 'blur(10px)',
+            }}
           />
         </form>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm">
-          <Filter className="h-4 w-4 ml-2" />
-          סינון
-        </Button>
-        <Button variant="outline" size="sm">
-          <SortAsc className="h-4 w-4 ml-2" />
-          מיון
-        </Button>
+      <div className="flex items-center gap-3">
+        <button 
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white/80 hover:text-white transition-all duration-200 hover:scale-105"
+          style={{
+            background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        >
+          <Filter className="h-4 w-4" />
+          <span className="text-sm font-light">סינון</span>
+        </button>
+        
+        <button 
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white/80 hover:text-white transition-all duration-200 hover:scale-105"
+          style={{
+            background: `linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))`,
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        >
+          <SortAsc className="h-4 w-4" />
+          <span className="text-sm font-light">מיון</span>
+        </button>
+        
         {currentSearch && (
-          <Button variant="outline" size="sm" onClick={clearFilters}>
-            נקה סינונים
-          </Button>
+          <button 
+            onClick={clearFilters}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-framework-primary hover:text-white transition-all duration-200 hover:scale-105"
+            style={{
+              background: `linear-gradient(135deg, rgba(217, 65, 136, 0.2), rgba(217, 65, 136, 0.1))`,
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(217, 65, 136, 0.3)',
+            }}
+          >
+            <span className="text-sm font-light">נקה סינונים</span>
+          </button>
         )}
       </div>
     </div>
