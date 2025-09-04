@@ -23,17 +23,27 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       })
 
-      if (error) {
-        toast.error('שגיאה בהתחברות: ' + (error?.message || 'נסה שוב'))
-      } else {
-        toast.success('התחברת בהצלחה!')
-        router.push('/admin')
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        const message = body?.error || 'שגיאה בהתחברות'
+        if (res.status === 400) {
+          toast.error('פרטי התחברות שגויים. אנא נסה שוב.')
+        } else if (res.status >= 500) {
+          toast.error('שגיאת שרת בהתחברות. נסה שוב או השתמש בקישור למייל.')
+        } else {
+          toast.error(message)
+        }
+        return
       }
+
+      toast.success('התחברת בהצלחה!')
+      router.push('/admin')
     } catch (error) {
       toast.error('שגיאה לא צפויה')
     } finally {
