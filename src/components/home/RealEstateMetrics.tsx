@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getCachedRealEstateKPIs } from '@/lib/israelRealEstateAPI'
+// צריכת נתונים דרך API פנימי כדי לעקוף CORS ולהיות יציב
 
 // רכיב גרף חודש אחרון - מקצה לקצה
 function MiniChart({ data, trend }: { data: number[], trend: string }) {
@@ -113,7 +113,8 @@ export function RealEstateMetrics() {
         setIsLoading(true)
         console.log('🏠 טוען נתוני נדל״ן מ-APIs ישראליים...')
         
-        const kpis = await getCachedRealEstateKPIs()
+        const res = await fetch('/api/real-estate/kpis', { cache: 'no-store' })
+        const kpis = await res.json()
         
         // המרה לפורמט תצוגה עם גרפים סימולטיביים
         const displayData: KPIDisplay[] = [

@@ -1,4 +1,4 @@
-'use client'
+// Server-side utilities for fetching Israeli Real Estate KPIs
 
 // ===================================================================
 // Israeli Real Estate KPIs API Integration
@@ -59,7 +59,7 @@ export async function getRealEstateKPIs(): Promise<RealEstateKPIs> {
 // 1. Average Price per SQM from CBS
 async function fetchAvgPriceSqm(): Promise<KPIData> {
   try {
-    const response = await fetch('https://api.cbs.gov.il/series/813/data?format=json', {
+    const response = await fetchWithTimeout('https://api.cbs.gov.il/series/813/data?format=json', {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'RealEstateApp/1.0'
@@ -102,7 +102,7 @@ async function fetchAvgPriceSqm(): Promise<KPIData> {
 // 2. Active Properties for Sale from CBS
 async function fetchActiveProperties(): Promise<KPIData> {
   try {
-    const response = await fetch('https://api.cbs.gov.il/series/851/data?format=json', {
+    const response = await fetchWithTimeout('https://api.cbs.gov.il/series/851/data?format=json', {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'RealEstateApp/1.0'
@@ -145,7 +145,7 @@ async function fetchActiveProperties(): Promise<KPIData> {
 // 3. Mortgage Rate from Bank of Israel
 async function fetchMortgageRate(): Promise<KPIData> {
   try {
-    const response = await fetch('https://api.bankisrael.gov.il/PublicApi/getInterestRates?format=json', {
+    const response = await fetchWithTimeout('https://api.bankisrael.gov.il/PublicApi/getInterestRates?format=json', {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'RealEstateApp/1.0'
@@ -188,7 +188,7 @@ async function fetchMortgageRate(): Promise<KPIData> {
 // 4. Transactions Count from CBS
 async function fetchTransactions(): Promise<KPIData> {
   try {
-    const response = await fetch('https://api.cbs.gov.il/series/814/data?format=json', {
+    const response = await fetchWithTimeout('https://api.cbs.gov.il/series/814/data?format=json', {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'RealEstateApp/1.0'
@@ -282,5 +282,21 @@ export async function saveKPIsToSupabase(kpis: RealEstateKPIs): Promise<void> {
     // await supabase.from('real_estate_kpis').insert([dataToSave])
   } catch (error) {
     console.error('Error saving to Supabase:', error)
+  }
+}
+
+// Fetch with timeout + single retry for stability
+async function fetchWithTimeout(url: string, init?: RequestInit & { timeoutMs?: number }): Promise<Response> {
+  const timeoutMs = (init as any)?.timeoutMs ?? 7000
+  const controller = new AbortController()
+  const id = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    return await fetch(url, { ...(init || {}), signal: controller.signal })
+  } catch (e) {
+    // retry once after brief backoff
+    await new Promise((r) => setTimeout(r, 250))
+    return await fetch(url, { ...(init || {}), signal: controller.signal })
+  } finally {
+    clearTimeout(id)
   }
 }
