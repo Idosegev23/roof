@@ -43,7 +43,8 @@ export function BentoGrid() {
                 index === 1 ? 'col-span-2 md:col-span-3 md:row-span-1 lg:col-span-6 lg:row-span-1' :
                 index === 2 ? 'col-span-2 md:col-span-3 md:row-span-1 lg:col-span-6 lg:row-span-1' :
                 index >= 3 && index <= 5 ? 'col-span-1 md:col-span-2 md:row-span-1 lg:col-span-4 lg:row-span-1' :
-                /* 6-9 */ 'col-span-1 md:col-span-3 md:row-span-1 lg:col-span-3 lg:row-span-1'
+                index === 9 ? 'col-span-2 md:col-span-3 md:row-span-1 lg:col-span-3 lg:row-span-1' :
+                /* 6-8 */ 'col-span-1 md:col-span-3 md:row-span-1 lg:col-span-3 lg:row-span-1'
 
               return (
                 <div key={article.id} className={`relative overflow-hidden group ${spanClass}`}>
@@ -74,7 +75,7 @@ export function BentoGrid() {
         ) : (
           <div className="grid grid-cols-2 sm:[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))] gap-4 md:gap-6">
             {top10.map((article, index) => (
-              <div key={article.id} className="relative h-[220px] md:h-[260px] overflow-hidden group">
+              <div key={article.id} className={`relative h-[220px] md:h-[260px] overflow-hidden group ${index === top10.length - 1 ? 'col-span-2 sm:col-span-1' : ''}`}>
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{ backgroundImage: `url(${article.cover_image})` }}
