@@ -88,56 +88,57 @@ export function CategoryBento({ articles, categoryTitle }: CategoryBentoProps) {
                 rowSpan = 'row-span-1'
               }
 
-            return (
-              <div key={article.id} className={`${colSpan} ${rowSpan}`}>
-                <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
-                  {/* תמונת רקע */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                    style={{
-                      backgroundImage: `url(${article.cover_image})`,
-                    }}
-                  ></div>
-                  
-                  {/* אוברליי */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                  
-                  {/* תוכן */}
-                  <div className="relative h-full flex flex-col justify-end p-4">
-                    {/* קטגוריה */}
-                    <div className="mb-2">
-                      <span className="text-framework-accent-cta text-xs font-medium uppercase tracking-wider">
-                        {categoryTitle}
-                      </span>
-                    </div>
+              return (
+                <div key={article.id} className={`${colSpan} ${rowSpan}`}>
+                  <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+                    {/* תמונת רקע */}
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                      style={{
+                        backgroundImage: `url(${article.cover_image})`,
+                      }}
+                    ></div>
                     
-                    {/* כותרת - גודל דינמי לפי גודל הפריט */}
-                    <h3 className={`font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200 ${
-                      index === 0 ? 'text-xl md:text-2xl lg:text-3xl' : 
-                      colSpan.includes('2') ? 'text-lg md:text-xl' : 'text-sm md:text-base'
-                    }`}>
-                      <Link href={`/article/${article.id}`}>
-                        {article.title}
-                      </Link>
-                    </h3>
+                    {/* אוברליי */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    
+                    {/* תוכן */}
+                    <div className="relative h-full flex flex-col justify-end p-4">
+                      {/* קטגוריה */}
+                      <div className="mb-2">
+                        <span className="text-framework-accent-cta text-xs font-medium uppercase tracking-wider">
+                          {categoryTitle}
+                        </span>
+                      </div>
+                      
+                      {/* כותרת - גודל דינמי לפי גודל הפריט */}
+                      <h3 className={`font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200 ${
+                        index === 0 ? 'text-xl md:text-2xl lg:text-3xl' : 
+                        colSpan.includes('3') ? 'text-lg md:text-xl' : 'text-sm md:text-base'
+                      }`}>
+                        <Link href={`/article/${article.id}`}>
+                          {article.title}
+                        </Link>
+                      </h3>
 
-                    {/* תקציר רק לכתבה הראשונה */}
-                    {index === 0 && (
-                      <p className="text-white/80 mb-3 font-ultralight leading-relaxed text-sm">
-                        {article.seo_description}
-                      </p>
-                    )}
-                    
-                    {/* תאריך */}
-                    <div className="text-white/60 text-xs font-ultralight">
-                      {new Date(article.created_at).toLocaleDateString('he-IL')}
+                      {/* תקציר רק לכתבה הראשונה */}
+                      {index === 0 && (
+                        <p className="text-white/80 mb-3 font-ultralight leading-relaxed text-sm">
+                          {article.seo_description}
+                        </p>
+                      )}
+                      
+                      {/* תאריך */}
+                      <div className="text-white/60 text-xs font-ultralight">
+                        {new Date(article.created_at).toLocaleDateString('he-IL')}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
 
+          </div>
         </div>
       </div>
     </section>
