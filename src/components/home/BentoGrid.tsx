@@ -1,62 +1,31 @@
 import Link from 'next/link'
 import { getFeaturedArticles } from '@/lib/mockArticles'
 
-// המרת המאמרים המוקאפ לפורמט Bento Grid
-const mockArticles = getFeaturedArticles(6)
+// המרת המאמרים המוקאפ לפורמט Bento Grid - 10 כתבות מובילות מכל הקטגוריות
+const mockArticles = getFeaturedArticles(10)
 
-const bentoArticles = [
-  // הכתבה הכי נקראת - הכי גדולה
-  {
-    id: mockArticles[0]?.id || 'featured-1',
-    title: mockArticles[0]?.title || "דוח שוק נדל״ן 2024 - המדד החדש של מחירי הדיירות",
-    summary: mockArticles[0]?.seo_description || "דוח מקיף על מצב שוק הנדל״ן בישראל ותחזיות לרבעון הקרוב",
-    image: mockArticles[0]?.cover_image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
-    category: "ניתוח שוק",
-    readTime: "8 דקות",
-    isHot: true,
-    size: "large"
-  },
-  {
-    id: mockArticles[1]?.id || 'residential-1',
-    title: mockArticles[1]?.title || "המדריך המלא לקניית דירה ראשונה בישראל",
-    image: mockArticles[1]?.cover_image || "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400&h=300&fit=crop",
-    category: "נדל״ן למגורים",
-    readTime: "5 דקות",
-    size: "medium"
-  },
-  {
-    id: mockArticles[2]?.id || 'offices-1',
-    title: mockArticles[2]?.title || "המשרדים הזולים ביותר במרכז הארץ",
-    image: mockArticles[2]?.cover_image || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=200&fit=crop",
-    category: "נדל״ן משרדי",
-    readTime: "3 דקות",
-    size: "small"
-  },
-  {
-    id: mockArticles[3]?.id || 'investments-1',
-    title: mockArticles[3]?.title || "השקעה בנדל״ן בחו״ל - הזדמנויות בברלין ולונדון",
-    image: mockArticles[3]?.cover_image || "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=400&h=200&fit=crop",
-    category: "נדל״ן להשקעה",
-    readTime: "4 דקות",
-    size: "small"
-  },
-  {
-    id: mockArticles[4]?.id || 'residential-2',
-    title: mockArticles[4]?.title || "שכונות חמות בתל אביב - איפה כדאי לקנות עכשיו?",
-    image: mockArticles[4]?.cover_image || "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop",
-    category: "נדל״ן למגורים",
-    readTime: "6 דקות",
-    size: "medium"
-  },
-  {
-    id: mockArticles[5]?.id || 'featured-2',
-    title: mockArticles[5]?.title || "פרויקט TAMA 38 בחיפה - הזדמנות זהב לדיירים",
-    image: mockArticles[5]?.cover_image || "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400&h=200&fit=crop",
-    category: "התחדשות עירונית",
-    readTime: "4 דקות",
-    size: "small"
+// יצירת bentoArticles דינמית מכל המאמרים הזמינים
+const bentoArticles = mockArticles.slice(0, 10).map((article, index) => {
+  const getCategoryDisplayName = (cat: string) => {
+    switch(cat) {
+      case 'residential': return 'נדל״ן למגורים'
+      case 'offices': return 'נדל״ן משרדי'  
+      case 'investments': return 'נדל״ן להשקעה'
+      default: return cat
+    }
   }
-]
+
+  return {
+    id: article.id,
+    title: article.title,
+    summary: article.seo_description,
+    image: article.cover_image,
+    category: getCategoryDisplayName(article.category),
+    readTime: `${Math.floor(Math.random() * 5) + 3} דקות`,
+    isHot: index === 0, // רק הכתבה הראשונה תהיה "חמה"
+    size: index === 0 ? "large" : (index < 3 ? "medium" : "small")
+  }
+})
 
 export function BentoGrid() {
   return (
@@ -73,12 +42,12 @@ export function BentoGrid() {
           </p>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-12 gap-4 md:gap-6 h-[800px] md:h-[600px]">
+        {/* Bento Grid - קווים ישירים ללא רדיוס */}
+        <div className="grid grid-cols-12 gap-4 md:gap-6 auto-rows-[180px]">
           
           {/* כתבה ראשית - גדולה */}
           <div className="col-span-12 md:col-span-8 row-span-2">
-            <div className="group relative h-full rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02]">
+            <div className="group relative h-full overflow-hidden transition-all duration-500 hover:scale-[1.02]">
               {/* תמונת רקע */}
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -128,10 +97,10 @@ export function BentoGrid() {
             </div>
           </div>
 
-          {/* כתבות צדדיות - 4 קטנות */}
+          {/* כתבות צדדיות */}
           <div className="col-span-12 md:col-span-4 grid grid-cols-1 gap-4 md:gap-6">
             {bentoArticles.slice(1, 3).map((article) => (
-              <div key={article.id} className="group relative h-[190px] rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+              <div key={article.id} className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
                 {/* תמונת רקע */}
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -163,10 +132,10 @@ export function BentoGrid() {
             ))}
           </div>
 
-          {/* שורה תחתונה - 3 כתבות בינוניות */}
-          {bentoArticles.slice(3, 6).map((article) => (
-            <div key={article.id} className="col-span-12 md:col-span-4">
-              <div className="group relative h-[190px] rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+          {/* שורה שנייה - כתבות נוספות */}
+          {bentoArticles.slice(3, 9).map((article, index) => (
+            <div key={article.id} className="col-span-6 md:col-span-3">
+              <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
                 {/* תמונת רקע */}
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
@@ -185,7 +154,7 @@ export function BentoGrid() {
                       {article.category}
                     </span>
                   </div>
-                  <h4 className="text-lg font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
+                  <h4 className="text-sm font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
                     <Link href={`/article/${article.id}`}>
                       {article.title}
                     </Link>
@@ -197,6 +166,41 @@ export function BentoGrid() {
               </div>
             </div>
           ))}
+
+          {/* שורה שלישית - כתבה אחרונה רחבה */}
+          {bentoArticles[9] && (
+            <div className="col-span-12 md:col-span-6">
+              <div className="group relative h-full overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+                {/* תמונת רקע */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{
+                    backgroundImage: `url(${bentoArticles[9].image})`,
+                  }}
+                ></div>
+                
+                {/* אוברליי */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                
+                {/* תוכן */}
+                <div className="relative h-full flex flex-col justify-end p-4">
+                  <div className="mb-2">
+                    <span className="text-framework-accent-cta text-xs font-medium uppercase tracking-wider">
+                      {bentoArticles[9].category}
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-light text-white mb-2 leading-tight group-hover:text-framework-accent-cta transition-colors duration-200">
+                    <Link href={`/article/${bentoArticles[9].id}`}>
+                      {bentoArticles[9].title}
+                    </Link>
+                  </h4>
+                  <div className="text-white/60 text-xs font-ultralight">
+                    {bentoArticles[9].readTime}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>
